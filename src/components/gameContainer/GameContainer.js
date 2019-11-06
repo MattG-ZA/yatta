@@ -9,8 +9,8 @@ class GameContainer extends React.Component {
         return (
             <span className='container'>
                 {
-                    games.map((game) => {
-                        return <GameCard game={game} />
+                    games.map((game, index) => {
+                        return <GameCard key={index} game={game} />
                     })
                 }
             </span>
