@@ -1,0 +1,49 @@
+.card {
+    margin: 10px;
+    cursor: pointer;
+}
+
+.card-image {
+    height: 380px;
+    width: 272px;
+    border-radius: 10px 0px 10px 0px;
+}
+
+.card-mixer-image {
+    position: absolute;
+    height: 380px;
+    width: 272px;
+    object-fit: contain;
+    z-index: 100;
+}
+
+.card-background {
+    height: 380px;
+    width: 272px;
+    filter: blur(3px) brightness(0.5);
+}
+
+.card-image-container {
+    display: flex;
+}
+
+.card-title {
+    color: #ccc; 
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    font-family: Verdana; 
+    width: 272px;
+}
+
+.icon {
+    width: 10px; 
+    margin-right: 5px; 
+    filter: brightness(150%);
+}
+
+.viewers {
+    color: #868686; 
+    font-family: Verdana; 
+    font-size: smaller; 
+    width: 272px;
+}
