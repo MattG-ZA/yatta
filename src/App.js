@@ -7,9 +7,9 @@ import { BrowserRouter } from 'react-router-dom';
 class App extends Component {
     render() {
         return (
-            <BrowserRouter>
-                <Route path={process.env.PUBLIC_URL + '/'} component={Home} exact={true} />
-                <Route path={process.env.PUBLIC_URL + '/streams'} component={Streams} exact={true} />
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
+                <Route path={'/'} component={Home} exact={true} />
+                <Route path={'/streams'} component={Streams} exact={true} />
             </BrowserRouter>
         )
     }
