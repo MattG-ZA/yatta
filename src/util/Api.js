@@ -17,8 +17,8 @@ export const GetTwitchStreams = () => {
 }
 
 // Get top 24 Twitch games
-export const GetTwitchGames = () => {
-    return fetch('https://api.twitch.tv/kraken/games/top?limit=25', {
+export const GetTwitchGames = (limit, offset) => {
+    return fetch(`https://api.twitch.tv/kraken/games/top?limit=${limit}&offset=${offset}`, {
         headers: {
             'Accept': 'application/vnd.twitchtv.v5+json',
             'Client-ID': 'qxrshse6o00vgsl28hjlkyvlu28r89',
@@ -27,7 +27,7 @@ export const GetTwitchGames = () => {
     })
         .then(response => response.json())
         .then((json) => {
-            // console.log('Twitch Games: ', json);
+            // console.log('API - Twitch Games: ', json);
             return json.top;
         });
 }
@@ -61,11 +61,11 @@ export const GetMixerStreams = () => {
 }
 
 // Get top 24 Mixer games
-export const GetMixerGames = () => {
-    return fetch('https://mixer.com/api/v1/types?order=viewersCurrent:DESC&limit=24')
+export const GetMixerGames = (limit, page) => {
+    return fetch(`https://mixer.com/api/v1/types?order=viewersCurrent:DESC&limit=${limit}&page=${page}`)
         .then(response => response.json())
         .then((json) => {
-            // console.log('Mixer Games: ', json);
+            // console.log('API - Mixer Games: ', json);
             return json;
         });
 }
