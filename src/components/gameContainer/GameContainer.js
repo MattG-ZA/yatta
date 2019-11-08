@@ -5,7 +5,7 @@ import GameCard from '../gameCard/GameCard';
 class GameContainer extends React.Component {
     render() {
         const { games } = this.props;
-        
+
         return (
             <span className='container'>
                 {

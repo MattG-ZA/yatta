@@ -9,13 +9,28 @@ class App extends Component {
         super(props);
 
         this.state = {
+            page: 1,
             twitchStreams: [],
             mixerStreams: [],
             consolidatedGamesList: [],
         };
     }
 
+    // Function attached to scroll event
+    runOnScroll = (event) => {
+        const scrollHeight = event.target.scrollingElement.scrollHeight;
+        const clientHeight = event.target.scrollingElement.clientHeight;
+        const scrollTop = event.target.scrollingElement.scrollTop;
+
+        // Check if scroll is at bottom of screen
+        if (scrollHeight - clientHeight === scrollTop) {
+            console.log('Bottom');
+        }
+    }
+
     async componentDidMount() {
+        window.addEventListener('scroll', this.runOnScroll);
+
         // const twitchStreamData = await GetTwitchStreams();
         // const mixerStreamData = await GetMixerStreams();
 

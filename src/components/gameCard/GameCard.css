@@ -21,6 +21,7 @@
     height: 380px;
     width: 272px;
     filter: blur(3px) brightness(0.5);
+    border-radius: 10px 0px 10px 0px;
 }
 
 .card-image-container {

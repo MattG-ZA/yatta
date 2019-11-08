@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/yatta/static/css/main.57f853aa.chunk.css",
+    "main.js": "/yatta/static/js/main.fe2a5045.chunk.js",
+    "main.js.map": "/yatta/static/js/main.fe2a5045.chunk.js.map",
+    "runtime~main.js": "/yatta/static/js/runtime~main.261765fb.js",
+    "runtime~main.js.map": "/yatta/static/js/runtime~main.261765fb.js.map",
+    "static/js/2.5962106a.chunk.js": "/yatta/static/js/2.5962106a.chunk.js",
+    "static/js/2.5962106a.chunk.js.map": "/yatta/static/js/2.5962106a.chunk.js.map",
+    "index.html": "/yatta/index.html",
+    "precache-manifest.8e0b21746a948fece8c0ca98a86caae9.js": "/yatta/precache-manifest.8e0b21746a948fece8c0ca98a86caae9.js",
+    "service-worker.js": "/yatta/service-worker.js",
+    "static/css/main.57f853aa.chunk.css.map": "/yatta/static/css/main.57f853aa.chunk.css.map",
+    "static/media/Mixer.png": "/yatta/static/media/Mixer.db521ad7.png"
+  }
+}
