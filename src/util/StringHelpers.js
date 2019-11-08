@@ -6,7 +6,7 @@ export const StringStripper = (stringValue) => {
     let strippedString = '';
 
     // Remove all punctuation
-    strippedString = stringValue.replace(/ /g, '').replace(/(~|`|!|@|#|$|%|^|&|\*|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\/|\\|\||-|_|\+|=)/g, '');
+    strippedString = stringValue.replace(/ /g, '').replace(/(~|`|!|@|#|$|%|^|&|\*|\(|\)|{|}|\[|\]|;|:|"|'|<|,|\.|>|\?|\/|\\|\||-|_|\+|=)/g, '');
 
     let numberToRomanize = '';
     let romanizedString = '';
