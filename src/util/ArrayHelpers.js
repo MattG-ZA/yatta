@@ -2,9 +2,9 @@ import { GetSingleMixerGame, GetSingleTwitchGame } from './Api';
 import { StringStripper } from './StringHelpers';
 
 // Consolidate the game objects returned from different API's
-export const ConsolidateGameLists = async (twitchGames, mixerGames) => {
+export const ConsolidateGameLists = async (twitchGames, mixerGames, limit) => {
     let consolidatedGameList = [];
-
+    
     for (let i = 0; i < twitchGames.length; i++) {
         let customGameInfo = {
             name: twitchGames[i].game.name,
@@ -71,9 +71,9 @@ export const ConsolidateGameLists = async (twitchGames, mixerGames) => {
         }
     }
 
-    // Sort the array by total viewers, then get the top 24 games from the consolidated list
+    // Sort the array by total viewers, then get the top games from the consolidated list
     consolidatedGameList.sort((a, b) => (a.totalViewers < b.totalViewers) ? 1 : -1);
-    consolidatedGameList = consolidatedGameList.slice(0, 24);
+    consolidatedGameList = consolidatedGameList.slice(0, limit);
 
     return consolidatedGameList;
 }

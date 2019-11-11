@@ -16,7 +16,7 @@ export const GetTwitchStreams = () => {
         });
 }
 
-// Get top 24 Twitch games
+// Get top Twitch games
 export const GetTwitchGames = (limit, offset) => {
     return fetch(`https://api.twitch.tv/kraken/games/top?limit=${limit}&offset=${offset}`, {
         headers: {
@@ -60,7 +60,7 @@ export const GetMixerStreams = () => {
         });
 }
 
-// Get top 24 Mixer games
+// Get top Mixer games
 export const GetMixerGames = (limit, page) => {
     return fetch(`https://mixer.com/api/v1/types?order=viewersCurrent:DESC&limit=${limit}&page=${page}`)
         .then(response => response.json())
