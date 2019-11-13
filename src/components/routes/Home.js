@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { GetTwitchGames, GetMixerGames } from '../../util/Api';
-import { ConsolidateGameLists } from '../../util/ArrayHelpers';
+import { ConsolidateGameListsV2 } from '../../util/ArrayHelpers';
+import { StringStripper } from '../../util/StringHelpers';
 import GameContainer from '../gameContainer/GameContainer';
 import LoadingIndicator from '../loadingIndicator/LoadingIndicator';
 
@@ -21,19 +22,21 @@ class Home extends Component {
     }
 
     // Gets game data from Twitch and Mixer and returns consolidated list
-    async GetGameData(limit) {
+    async GetGameData(limit, firstLoad) {
         // Only fetch more games if there isn't another load already running
         if (!this.state.loadingGames) {
-            this.setState({
-                page: this.state.page + 1,
-                loadingGames: true,
-            });
+            this.setState({ loadingGames: true });
 
-            const twitchGameData = await GetTwitchGames(limit, this.state.page * limit);
+            const twitchGameData = await GetTwitchGames(limit, this.state.page * limit, firstLoad);
             const mixerGameData = await GetMixerGames(limit, this.state.page);
-            const consolidatedGamesList = await ConsolidateGameLists(twitchGameData, mixerGameData, limit);
+            const consolidatedGamesList = await ConsolidateGameListsV2(twitchGameData, mixerGameData, limit);
 
-            this.setState({ loadingGames: false });
+            ConsolidateGameListsV2(twitchGameData, mixerGameData, limit);
+
+            this.setState({
+                loadingGames: false,
+                page: this.state.page + 1,
+            });
 
             return consolidatedGamesList;
         }
@@ -47,14 +50,23 @@ class Home extends Component {
 
         // Check if scroll is at bottom of screen
         if (scrollHeight - clientHeight === scrollTop) {
-            // Fetch the next batch of 18 games and append them to the displayed list
-            const nextGameBatch = await this.GetGameData(18);
+            // Fetch the next batch of 24 games and append them to the displayed list
+            const nextGameBatch = await this.GetGameData(24, false);
 
             if (nextGameBatch) {
-                // Make sure we're only adding unique games to the list, and slice the list for display
-                let gamesToAdd = nextGameBatch.filter(x => !this.state.consolidatedGamesList.find(y => y.name === x.name));
-                gamesToAdd = gamesToAdd.slice(0, 12);
-                this.setState({ consolidatedGamesList: this.state.consolidatedGamesList.concat(gamesToAdd) });
+                // Make sure we're only adding unique games to the list
+                const gamesToAdd = nextGameBatch.filter(x => {
+                    return (
+                        !this.state.consolidatedGamesList.find(y => y.name === x.name) &&
+                        !this.state.consolidatedGamesList.find(y => StringStripper(y.name) === StringStripper(x.name))
+                    );
+                });
+                const consolidatedGamesList = this.state.consolidatedGamesList.concat(gamesToAdd);
+
+                // Sort the new overall list of games
+                consolidatedGamesList.sort((a, b) => (a.totalViewers < b.totalViewers) ? 1 : -1);
+
+                this.setState({ consolidatedGamesList });
             }
         }
     }
@@ -63,7 +75,7 @@ class Home extends Component {
         window.addEventListener('scroll', this.RunOnScroll);
 
         // Get initial list of top 24 games from both platforms
-        const consolidatedGamesList = await this.GetGameData(24);
+        const consolidatedGamesList = await this.GetGameData(24, true);
         this.setState({ consolidatedGamesList });
     }
 

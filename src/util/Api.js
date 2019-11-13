@@ -11,14 +11,14 @@ export const GetTwitchStreams = () => {
     })
         .then(response => response.json())
         .then((json) => {
-            // console.log('Twitch Streams: ', json);
+            // console.log('API - Twitch Streams: ', json);
             return json.streams;
         });
 }
 
 // Get top Twitch games
-export const GetTwitchGames = (limit, offset) => {
-    return fetch(`https://api.twitch.tv/kraken/games/top?limit=${limit}&offset=${offset}`, {
+export const GetTwitchGames = (limit, offset, firstLoad) => {
+    return fetch(`https://api.twitch.tv/kraken/games/top?limit=${firstLoad ? limit + 1 : limit}&offset=${offset}`, {
         headers: {
             'Accept': 'application/vnd.twitchtv.v5+json',
             'Client-ID': 'qxrshse6o00vgsl28hjlkyvlu28r89',
@@ -43,7 +43,7 @@ export const GetSingleTwitchGame = (gameName) => {
     })
         .then(response => response.json())
         .then((json) => {
-            // console.log('Single Twitch Game: ', gameName, json);
+            // console.log('API - Single Twitch Game: ', gameName, json);
             return json;
         });
 }
@@ -55,7 +55,7 @@ export const GetMixerStreams = () => {
     return fetch('https://mixer.com/api/v1/channels')
         .then(response => response.json())
         .then((json) => {
-            // console.log('Mixer Streams: ', json);
+            // console.log('API - Mixer Streams: ', json);
             return json;
         });
 }
@@ -75,7 +75,17 @@ export const GetSingleMixerGame = (gameName) => {
     return fetch(`https://mixer.com/api/v1/types?where=name:eq:${gameName}`)
         .then(response => response.json())
         .then((json) => {
-            // console.log('Single Mixer Game: ', gameName, json);
+            // console.log('API - Single Mixer Game: ', gameName, json);
+            return json;
+        });
+}
+
+// Get Mixer games from list based on game names separated by semi-solons
+export const GetMixerGamesByName = (gameNameList) => {
+    return fetch(`https://mixer.com/api/v1/types?where=name:in:${gameNameList}`)
+        .then(response => response.json())
+        .then((json) => {
+            // console.log('API - Mixer Games By Name: ', gameNameList, json);
             return json;
         });
 }
