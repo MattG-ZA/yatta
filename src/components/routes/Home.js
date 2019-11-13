@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { GetTwitchGames, GetMixerGames } from '../../util/Api';
-import { ConsolidateGameLists, ConsolidateGameListsV2 } from '../../util/ArrayHelpers';
+import { ConsolidateGameListsV2 } from '../../util/ArrayHelpers';
+import { StringStripper } from '../../util/StringHelpers';
 import GameContainer from '../gameContainer/GameContainer';
 import LoadingIndicator from '../loadingIndicator/LoadingIndicator';
 
@@ -53,10 +54,19 @@ class Home extends Component {
             const nextGameBatch = await this.GetGameData(24, false);
 
             if (nextGameBatch) {
-                // Make sure we're only adding unique games to the list, and slice the list for display
-                let gamesToAdd = nextGameBatch.filter(x => !this.state.consolidatedGamesList.find(y => y.name === x.name));
-                // gamesToAdd = gamesToAdd.slice(0, 12);
-                this.setState({ consolidatedGamesList: this.state.consolidatedGamesList.concat(gamesToAdd) });
+                // Make sure we're only adding unique games to the list
+                const gamesToAdd = nextGameBatch.filter(x => {
+                    return (
+                        !this.state.consolidatedGamesList.find(y => y.name === x.name) &&
+                        !this.state.consolidatedGamesList.find(y => StringStripper(y.name) === StringStripper(x.name))
+                    );
+                });
+                const consolidatedGamesList = this.state.consolidatedGamesList.concat(gamesToAdd);
+
+                // Sort the new overall list of games
+                consolidatedGamesList.sort((a, b) => (a.totalViewers < b.totalViewers) ? 1 : -1);
+
+                this.setState({ consolidatedGamesList });
             }
         }
     }

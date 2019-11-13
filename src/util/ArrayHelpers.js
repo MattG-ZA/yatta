@@ -1,92 +1,18 @@
 import { GetSingleMixerGame, GetSingleTwitchGame } from './Api';
 import { StringStripper } from './StringHelpers';
 
-// Consolidate the game objects returned from different API's
-export const ConsolidateGameLists = async (twitchGames, mixerGames, limit) => {
+export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
     let consolidatedGameList = [];
 
-    for (let i = 0; i < twitchGames.length; i++) {
-        let customGameInfo = {
-            name: twitchGames[i].game.name,
-            image: twitchGames[i].game.box.large,
-            twitchViewers: twitchGames[i].game.popularity,
-            mixerViewers: 0,
-            totalViewers: 0,
-            usingTwitchImage: true,
-        };
-
-        // Find a Mixer game from the fetched Mixer games list that matches the current Twitch game
-        let mixerMatch = mixerGames.filter(game => game.name === customGameInfo.name);
-
-        // If no matching game was found, strip strings and try again
-        if (mixerMatch.length === 0) {
-            mixerMatch = mixerGames.filter(game => StringStripper(game.name) === StringStripper(customGameInfo.name));
-        }
-
-        // If the game was still not found in the fetched list
-        if (mixerMatch.length === 0) {
-            // Call the API to get the info for the specific game
-            mixerMatch = await GetSingleMixerGame(customGameInfo.name);
-        }
-
-        if (mixerMatch.length > 0) {
-            // Total the viewers from all matching games
-            mixerMatch.forEach(game => {
-                if (game.name === customGameInfo.name || StringStripper(game.name) === StringStripper(customGameInfo.name)) {
-                    customGameInfo.mixerViewers += game.viewersCurrent;
-                }
-            });
-        }
-
-        customGameInfo.totalViewers = customGameInfo.twitchViewers + customGameInfo.mixerViewers;
-
-        consolidatedGameList.push(customGameInfo);
-    };
-
-    // Loop through Mixer games to look for any games not included in top Twitch games
-    for (let i = 0; i < mixerGames.length; i++) {
-        if (!consolidatedGameList.find(game => game.name === mixerGames[i].name)) {
-            // Call the API to get the info for the specific game from Twitch
-            const twitchGameData = await GetSingleTwitchGame(mixerGames[i].name);
-
-            let twitchViewers = 0;
-            let twitchImage = null;
-
-            // If the game was found, check that the name matches exactly
-            if (twitchGameData.games) {
-                if (twitchGameData.games[0].name === mixerGames[i].name) {
-                    twitchViewers = twitchGameData.games[0].popularity;
-                    twitchImage = twitchGameData.games[0].box.large;
-                }
-            }
-
-            consolidatedGameList.push({
-                name: mixerGames[i].name,
-                image: twitchImage ? twitchImage : mixerGames[i].coverUrl,
-                twitchViewers,
-                mixerViewers: mixerGames[i].viewersCurrent,
-                totalViewers: mixerGames[i].viewersCurrent + twitchViewers,
-                usingTwitchImage: twitchImage ? true : false,
-            });
-        }
-    }
-
-    // Sort the array by total viewers, then get the top games from the consolidated list
-    consolidatedGameList.sort((a, b) => (a.totalViewers < b.totalViewers) ? 1 : -1);
-    consolidatedGameList = consolidatedGameList.slice(0, limit);
-
-    return consolidatedGameList;
-}
-
-export const ConsolidateGameListsV2 = async (twitchGames, mixerGames, limit) => {
-    let consolidatedGameList = [];
-
+    // Take the top 24 games from Twitch and Mixer, and convert them into our object formats
     let customTwitchGames = CustomGameInfoBuilder(twitchGames, 'twitch');
     let customMixerGames = CustomGameInfoBuilder(mixerGames, 'mixer');
 
+    // Concat them into 1 new array
     consolidatedGameList = consolidatedGameList.concat(customTwitchGames).concat(customMixerGames);
 
     consolidatedGameList.forEach(game => {
+        // Try to match Twitch and Mixer games in the array
         if (!game.matched && game.gameOrigin === 'twitch') {
             let matches = consolidatedGameList.filter(x => {
                 return x.name.toLowerCase() === game.name.toLowerCase() && x.gameOrigin === 'mixer';
@@ -103,9 +29,11 @@ export const ConsolidateGameListsV2 = async (twitchGames, mixerGames, limit) => 
                     game.mixerViewers += match.mixerViewers;
                     game.totalViewers += match.mixerViewers;
 
+                    // Set the matched Mixer games status
                     match.matched = true;
                 });
 
+                // Set the matched Twitch games status
                 game.matched = true;
             }
         }
@@ -115,6 +43,7 @@ export const ConsolidateGameListsV2 = async (twitchGames, mixerGames, limit) => 
     let twitchMatchPromises = [];
     let mixerMatchPromises = [];
 
+    // For each remaining unmatched game, add a promise to try fetch it from an API
     for (let i = 0; i < unmatchedGames.length; i++) {
         if (unmatchedGames[i].gameOrigin === 'twitch') {
             mixerMatchPromises.push(GetSingleMixerGame(unmatchedGames[i].name));
@@ -128,27 +57,41 @@ export const ConsolidateGameListsV2 = async (twitchGames, mixerGames, limit) => 
     await GetTwitchGamePromises(twitchMatchPromises, unmatchedGames, false);
     await GetMixerGamePromises(mixerMatchPromises, unmatchedGames);
 
-    let unmatchedGamesPunctuation = consolidatedGameList.filter(game => !game.matched && game.name.split('').includes(':'));
+    // Update the unmatched games list after doing the first round of API matches
+    unmatchedGames = consolidatedGameList.filter(game => !game.matched);
+
+    // Find any remaining unmatched games that contain colons in their names
+    let unmatchedGamesPunctuation = unmatchedGames.filter(game => !game.matched && game.name.split('').includes(':'));
 
     twitchMatchPromises = [];
 
+    // For each remaining unmatched game, add a promise to try fetch it from the API
     unmatchedGamesPunctuation.forEach(game => {
         twitchMatchPromises.push(GetSingleTwitchGame(game.name.replace(':', '')));
     });
 
     await GetTwitchGamePromises(twitchMatchPromises, unmatchedGamesPunctuation, true);
 
-    const matchedGames = consolidatedGameList.filter(game => game.matched);
-    unmatchedGames = consolidatedGameList.filter(game => !game.matched);
-  
-    console.log('matchedGames ', matchedGames);
-    console.log('unmatchedGames ', unmatchedGames);
-    console.log('consolidatedGameList ', consolidatedGameList);
-    console.log('-----');
+    // The list that will be returned
+    const responseList = [];
 
-    return consolidatedGameList;
+    // Build up a list of unique games, favouring Twitch versions of duplicates
+    consolidatedGameList.forEach(game => {
+        if (consolidatedGameList.filter(x => StringStripper(x.name) === StringStripper(game.name)).length === 1) {
+            responseList.push(game);
+        }
+        else if (consolidatedGameList.filter(x => StringStripper(x.name) === StringStripper(game.name)).length > 1 && game.gameOrigin === 'twitch') {
+            responseList.push(game);
+        }
+    });
+
+    // Sort list by total viewers from high to low
+    responseList.sort((a, b) => (a.totalViewers < b.totalViewers) ? 1 : -1);
+
+    return responseList;
 }
 
+// Takes Twitch and Mixer games arrays and converts them into our custom game objects
 const CustomGameInfoBuilder = (gameList, type) => {
     const customGameInfoList = [];
 
@@ -185,17 +128,24 @@ const CustomGameInfoBuilder = (gameList, type) => {
 
 const GetTwitchGamePromises = async (twitchMatchPromises, unmatchedGames, colonCheck) => {
     await Promise.all(twitchMatchPromises).then((res) => {
-        res.forEach(game => {
-            if (game.games) {
-                let match = unmatchedGames.find(x => x.name.toLowerCase() === game.games[0].name.toLowerCase());
+        res.forEach(responseItem => {
+            // If a Twitch game with a matching name was returned from the API
+            if (responseItem.games) {
+                let match = null;
 
+                // Find an unmatched game with a name equal to the name of the first game returned
                 if (colonCheck) {
-                    match = unmatchedGames.find(x => x.name.replace(':', '').toLowerCase() === game.games[0].name.replace(':', '').toLowerCase());
+                    match = unmatchedGames.find(x => x.name.replace(':', '').toLowerCase() === responseItem.games[0].name.replace(':', '').toLowerCase());
+                }
+                else {
+                    match = unmatchedGames.find(x => x.name.toLowerCase() === responseItem.games[0].name.toLowerCase());
                 }
 
+                // If a match was found, update the values of the unmatched game, which also updates consolidatedGameList
                 if (match) {
-                    match.twitchViewers += game.games[0].popularity;
-                    match.totalViewers += game.games[0].popularity;
+                    match.image = responseItem.games[0].box.large;
+                    match.twitchViewers += responseItem.games[0].popularity;
+                    match.totalViewers += responseItem.games[0].popularity;
                     match.matched = true;
                 }
             }
@@ -205,13 +155,15 @@ const GetTwitchGamePromises = async (twitchMatchPromises, unmatchedGames, colonC
 
 const GetMixerGamePromises = async (mixerMatchPromises, unmatchedGames) => {
     await Promise.all(mixerMatchPromises).then((res) => {
-        res.forEach(game => {
-            if (game.length > 0) {
-                let match = unmatchedGames.find(x => x.name.toLowerCase() === game[0].name.toLowerCase());
+        res.forEach(responseItem => {
+            // If a Mixer game with a matching name was returned from the API
+            if (responseItem.length > 0) {
+                // Find an unmatched game with a name equal to the name of the first game returned
+                let match = unmatchedGames.find(x => x.name.toLowerCase() === responseItem[0].name.toLowerCase());
 
                 if (match) {
-                    match.mixerViewers += game[0].viewersCurrent;
-                    match.totalViewers += game[0].viewersCurrent;
+                    match.mixerViewers += responseItem[0].viewersCurrent;
+                    match.totalViewers += responseItem[0].viewersCurrent;
                     match.matched = true;
                 }
             }
