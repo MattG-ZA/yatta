@@ -13,6 +13,7 @@ export const ConsolidateGameLists = async (twitchGames, mixerGames) => {
             mixerViewers: 0,
             totalViewers: 0,
             usingTwitchImage: true,
+            mixerGameId: [],
         };
 
         // Find a Mixer game from the fetched Mixer games list that matches the current Twitch game
@@ -30,6 +31,7 @@ export const ConsolidateGameLists = async (twitchGames, mixerGames) => {
         }
 
         if (mixerMatch.length > 0) {
+            customGameInfo.mixerGameId.push(mixerMatch[0].id);
             // Total the viewers from all matching games
             mixerMatch.forEach(game => {
                 if (game.name === customGameInfo.name || StringStripper(game.name) === StringStripper(customGameInfo.name)) {
@@ -37,7 +39,7 @@ export const ConsolidateGameLists = async (twitchGames, mixerGames) => {
                 }
             });
         }
-
+       
         customGameInfo.totalViewers = customGameInfo.twitchViewers + customGameInfo.mixerViewers;
 
         consolidatedGameList.push(customGameInfo);
@@ -76,4 +78,50 @@ export const ConsolidateGameLists = async (twitchGames, mixerGames) => {
     consolidatedGameList = consolidatedGameList.slice(0, 24);
 
     return consolidatedGameList;
+}
+
+// Consolidate the game objects returned from different API's
+export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
+    let consolidatedStreamList = [];
+
+    let streamObj = {
+        name: 'N/A',
+        image: '',
+        viewers: 0,
+        type: '',
+    }
+
+    for (let i = 0; i < twitchStreams.length; i++) {
+        streamObj = {};
+        streamObj = {
+            name: twitchStreams[i].channel.name,
+            image: twitchStreams[i].preview.template.replace('{width}','380').replace('{height}','272'),
+            url: twitchStreams[i].channel.url,
+            viewers: twitchStreams[i].viewers,
+            type: 'twitch',
+        }
+        consolidatedStreamList.push(streamObj);
+    };
+
+    // Loop through Mixer games to look for any games not included in top Twitch games
+    for (let i = 0; i < mixerStreams.length; i++) {
+        streamObj = {};
+        streamObj = {
+            name: mixerStreams[i].name,
+            image: 'https://thumbs.mixer.com/channel/'+ mixerStreams[i].id+'.small.jpg',
+            url: 'https://mixer.com/' + mixerStreams[i].id,
+            viewers: mixerStreams[i].viewersCurrent,
+            type: 'mixer',
+            streamerName: mixerStreams[i].token
+        }
+        mixerStreams[i].viewers = mixerStreams[i].viewersCurrent;
+        consolidatedStreamList.push(streamObj);
+    }
+    
+
+    // Sort the array by total viewers, then get the top 24 games from the consolidated list
+    consolidatedStreamList.sort((a, b) => (a.viewers < b.viewers) ? 1 : -1);
+    consolidatedStreamList = consolidatedStreamList.slice(0, 24);
+    console.log('streams ===> ', consolidatedStreamList);
+    return consolidatedStreamList;
 }

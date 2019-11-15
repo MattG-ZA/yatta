@@ -45,6 +45,7 @@ class Home extends Component {
             // mixerStreams: mixerStreamData,
             consolidatedGamesList,
         });
+        console.log('consolodated:>', consolidatedGamesList )
     }
 
     render() {

@@ -1,15 +1,15 @@
 import React from 'react';
-import './GameContainer.css';
-import GameCard from '../gameCard/GameCard';
+import './StreamContainer.css';
+import StreamCard from '../streamCard/StreamCard';
 
-class GameContainer extends React.Component {
+class StreamContainer extends React.Component {
     render() {
         const { games } = this.props;
         return (
             <span className='container'>
                 {
                     games.map((game, index) => {
-                        return <GameCard key={index} game={game} />
+                        return <StreamCard key={index} game={game} />
                     })
                 }
             </span>
@@ -17,4 +17,4 @@ class GameContainer extends React.Component {
     }
 }
 
-export default GameContainer;
+export default StreamContainer;
