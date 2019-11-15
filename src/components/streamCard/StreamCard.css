@@ -5,21 +5,21 @@
 
 .stream-card-image {
     width: 380px;
-    height: 272px;
+    height: 200px;
     border-radius: 10px 0px 10px 0px;
 }
 
 .stream-card-mixer-image {
     position: absolute;
     width: 380px;
-    height: 272px;
+    height: 200px;
     object-fit: contain;
     z-index: 100;
 }
 
 .stream-card-background {
     width: 380px;
-    height: 272px;
+    height: 200px;
     filter: blur(3px) brightness(0.5);
     border-radius: 10px 0px 10px 0px;
 }

@@ -1,12 +1,12 @@
 .card {
     margin: 10px;
-    cursor: pointer;
 }
 
 .card-image {
     height: 380px;
     width: 272px;
     border-radius: 10px 0px 10px 0px;
+    cursor: pointer;
 }
 
 .card-mixer-image {

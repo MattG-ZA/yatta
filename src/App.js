@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
-import Home from '../src/components/routes/Home';
-
-import Streams from '../src/components/routes/Streams';
-
-import Stream from '../src/components/routes/Stream';
 import { BrowserRouter } from 'react-router-dom';
+import Home from '../src/components/routes/Home';
+import Streams from '../src/components/routes/Streams';
+import Stream from '../src/components/routes/Stream';
+
 class App extends Component {
     render() {
         return (

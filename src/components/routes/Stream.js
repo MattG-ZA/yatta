@@ -17,11 +17,8 @@ class Stream extends Component {
     }
 
     render() {
-        console.log('this.props', this.props.location.state);
         const { game, url} = this.props.location.state;
-        return (
-           <div>
-               
+        return (<div>
             {game.type === 'twitch' && <div className="stream-iframe-view">
                 <iframe
                     src={"https://player.twitch.tv/?channel=" + url + "&autoplay=true"}
@@ -30,7 +27,9 @@ class Stream extends Component {
                     frameborder="0"
                     scrolling="no"
                     allowfullscreen="true">
-                </iframe></div>}
+                </iframe></div>
+                
+            }
 
             {game.type === 'mixer'  && <div className="stream-iframe-view">
                 <iframe src={"https://mixer.com/embed/player/" + game.streamerName}
