@@ -30,7 +30,6 @@ class Home extends Component {
             const twitchGameData = await GetTwitchGames(limit, this.state.page * limit, firstLoad);
             const mixerGameData = await GetMixerGames(limit, this.state.page);
             const consolidatedGamesList = await ConsolidateGameListsV2(twitchGameData, mixerGameData, limit);
-
             ConsolidateGameListsV2(twitchGameData, mixerGameData, limit);
 
             this.setState({

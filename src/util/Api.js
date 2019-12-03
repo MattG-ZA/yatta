@@ -1,8 +1,9 @@
 // ----- Twitch API's -----
 
 // Get top 20 Twitch streams
-export const GetTwitchStreams = () => {
-    return fetch('https://api.twitch.tv/kraken/streams?limit=20', {
+export const GetTwitchStreams = (gameName) => {
+    console.log('game Name:>', gameName);
+    return fetch(`https://api.twitch.tv/kraken/streams?game=${gameName}&limit=25`, {
         headers: {
             'Accept': 'application/vnd.twitchtv.v5+json',
             'Client-ID': 'qxrshse6o00vgsl28hjlkyvlu28r89',
@@ -51,8 +52,11 @@ export const GetSingleTwitchGame = (gameName) => {
 // ----- Mixer API's -----
 
 // Get top Mixer streams
-export const GetMixerStreams = () => {
-    return fetch('https://mixer.com/api/v1/channels')
+export const GetMixerStreams = (gameId) => {
+    console.log('gameName',gameId);
+    const url = `https://mixer.com/api/v1/channels?where=typeId:eq:${gameId}&order=viewersCurrent:DESC&limit=24`;
+    console.log('call made => ', url);
+    return fetch(url)
         .then(response => response.json())
         .then((json) => {
             // console.log('API - Mixer Streams: ', json);

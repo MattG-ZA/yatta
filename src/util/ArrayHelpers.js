@@ -1,11 +1,11 @@
 import { GetSingleMixerGame, GetSingleTwitchGame } from './Api';
 import { StringStripper } from './StringHelpers';
-
 export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
     let consolidatedGameList = [];
 
     // Take the top 24 games from Twitch and Mixer, and convert them into our object formats
     let customTwitchGames = CustomGameInfoBuilder(twitchGames, 'twitch');
+    
     let customMixerGames = CustomGameInfoBuilder(mixerGames, 'mixer');
 
     // Concat them into 1 new array
@@ -25,7 +25,9 @@ export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
             }
 
             if (matches.length > 0) {
+                game.mixerGameId = matches[0].mixerGameId;
                 matches.forEach(match => {
+                    
                     game.mixerViewers += match.mixerViewers;
                     game.totalViewers += match.mixerViewers;
 
@@ -102,6 +104,8 @@ const CustomGameInfoBuilder = (gameList, type) => {
             twitchViewers: 0,
             mixerViewers: 0,
             totalViewers: 0,
+            usingTwitchImage: true,
+            mixerGameId: '',
             gameOrigin: type,
             matched: false,
         };
@@ -118,8 +122,8 @@ const CustomGameInfoBuilder = (gameList, type) => {
             customGameInfo.image = game.coverUrl;
             customGameInfo.mixerViewers = game.viewersCurrent;
             customGameInfo.totalViewers = game.viewersCurrent;
+            customGameInfo.mixerGameId = game.id;
         }
-
         customGameInfoList.push(customGameInfo);
     });
 
@@ -162,6 +166,7 @@ const GetMixerGamePromises = async (mixerMatchPromises, unmatchedGames) => {
                 let match = unmatchedGames.find(x => x.name.toLowerCase() === responseItem[0].name.toLowerCase());
 
                 if (match) {
+                    match.mixerGameId = responseItem[0].id;
                     match.mixerViewers += responseItem[0].viewersCurrent;
                     match.totalViewers += responseItem[0].viewersCurrent;
                     match.matched = true;
@@ -169,4 +174,49 @@ const GetMixerGamePromises = async (mixerMatchPromises, unmatchedGames) => {
             }
         });
     });
+}
+
+
+// Consolidate the game objects returned from different API's
+export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
+    let consolidatedStreamList = [];
+    let streamObj = {
+        name: 'N/A',
+        image: '',
+        viewers: 0,
+        type: '',
+    }
+
+    for (let i = 0; i < twitchStreams.length; i++) {
+        streamObj = {};
+        streamObj = {
+            name: twitchStreams[i].channel.name,
+            image: twitchStreams[i].preview.template.replace('{width}','380').replace('{height}','200'),
+            url: twitchStreams[i].channel.url,
+            viewers: twitchStreams[i].viewers,
+            type: 'twitch',
+        }
+        consolidatedStreamList.push(streamObj);
+    };
+
+    // Loop through Mixer games to look for any games not included in top Twitch games
+    for (let i = 0; i < mixerStreams.length; i++) {
+        streamObj = {};
+        streamObj = {
+            name: mixerStreams[i].name,
+            image: 'https://thumbs.mixer.com/channel/'+ mixerStreams[i].id+'.small.jpg',
+            url: 'https://mixer.com/' + mixerStreams[i].id,
+            viewers: mixerStreams[i].viewersCurrent,
+            type: 'mixer',
+            streamerName: mixerStreams[i].token
+        }
+        mixerStreams[i].viewers = mixerStreams[i].viewersCurrent;
+        consolidatedStreamList.push(streamObj);
+    }
+    
+
+    // Sort the array by total viewers, then get the top 24 games from the consolidated list
+    consolidatedStreamList.sort((a, b) => (a.viewers < b.viewers) ? 1 : -1);
+    consolidatedStreamList = consolidatedStreamList.slice(0, 24);
+    return consolidatedStreamList;
 }

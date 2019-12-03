@@ -1,0 +1,54 @@
+.stream-card {
+    margin: 10px;
+    cursor: pointer;
+}
+
+.stream-card-image {
+    width: 380px;
+    height: 200px;
+    border-radius: 10px 0px 10px 0px;
+}
+
+.stream-card-mixer-image {
+    position: absolute;
+    width: 380px;
+    height: 200px;
+    object-fit: contain;
+    z-index: 100;
+}
+
+.stream-card-background {
+    width: 380px;
+    height: 200px;
+    filter: blur(3px) brightness(0.5);
+    border-radius: 10px 0px 10px 0px;
+}
+
+.stream-card-image-container {
+    display: flex;
+}
+
+.stream-card-title {
+    color: #ccc; 
+    margin-top: 5px; 
+    margin-bottom: 5px; 
+    font-family: Verdana; 
+    width: 380px;
+}
+
+.stream-icon {
+    width: 10px; 
+    margin-right: 5px; 
+    filter: brightness(150%);
+}
+
+.stream-viewers {
+    color: #868686; 
+    font-family: Verdana; 
+    font-size: smaller; 
+    width: 380px;
+}
+.stream-iframe-view{
+    height:auto;
+    width:auto;
+}

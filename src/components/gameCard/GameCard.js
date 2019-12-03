@@ -8,7 +8,6 @@ import { NavLink } from 'react-router-dom';
 class GameCard extends React.Component {
     render() {
         const { game } = this.props;
-
         if (game) {
             const gameCardImageClass = game.usingTwitchImage ? 'card-image' : 'card-mixer-image';
 
