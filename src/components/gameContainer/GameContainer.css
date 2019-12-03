@@ -1,5 +1,10 @@
 .container {
     display: flex; 
     flex-wrap: wrap; 
-    justify-content: center;
+}
+
+.top-games {
+    display: flex; 
+    width: 100%;
+    overflow-x: scroll;
 }

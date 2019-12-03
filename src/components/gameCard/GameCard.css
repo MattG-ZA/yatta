@@ -1,25 +1,20 @@
 .card {
-    margin: 10px;
+    margin: auto;
+    padding: 10px 5px;
 }
 
 .card-image {
-    height: 380px;
-    width: 272px;
     border-radius: 10px 0px 10px 0px;
     cursor: pointer;
 }
 
 .card-mixer-image {
     position: absolute;
-    height: 380px;
-    width: 272px;
     object-fit: contain;
     z-index: 100;
 }
 
 .card-background {
-    height: 380px;
-    width: 272px;
     filter: blur(3px) brightness(0.5);
     border-radius: 10px 0px 10px 0px;
 }
@@ -29,11 +24,11 @@
 }
 
 .card-title {
+    width: 272px;
     color: #ccc; 
     margin-top: 5px; 
     margin-bottom: 5px; 
     font-family: Verdana; 
-    width: 272px;
 }
 
 .icon {
@@ -43,8 +38,8 @@
 }
 
 .viewers {
+    width: 272px;
     color: #868686; 
     font-family: Verdana; 
     font-size: smaller; 
-    width: 272px;
 }

@@ -104,7 +104,7 @@ const CustomGameInfoBuilder = (gameList, type) => {
             twitchViewers: 0,
             mixerViewers: 0,
             totalViewers: 0,
-            usingTwitchImage: true,
+            usingTwitchImage: false,
             mixerGameId: '',
             gameOrigin: type,
             matched: false,
@@ -115,6 +115,7 @@ const CustomGameInfoBuilder = (gameList, type) => {
             customGameInfo.image = game.game.box.large;
             customGameInfo.twitchViewers = game.game.popularity;
             customGameInfo.totalViewers = game.game.popularity;
+            customGameInfo.usingTwitchImage = true;
         }
 
         if (type === 'mixer') {
@@ -150,6 +151,7 @@ const GetTwitchGamePromises = async (twitchMatchPromises, unmatchedGames, colonC
                     match.image = responseItem.games[0].box.large;
                     match.twitchViewers += responseItem.games[0].popularity;
                     match.totalViewers += responseItem.games[0].popularity;
+                    match.usingTwitchImage = true;
                     match.matched = true;
                 }
             }
