@@ -5,17 +5,20 @@ import GameCard from '../gameCard/GameCard';
 class GameContainer extends React.Component {
     render() {
         const { games } = this.props;
+        
+        const topGames = games.slice(0, 5);
+        const moreGames = games.slice(5, games.length);
 
         return (
             <span className='container'>
                 <div className='top-games'>
-                    {games.splice(0, 4).map((game, index) => {
+                    {topGames.map((game, index) => {
                         return <GameCard key={index} game={game} topGame={true} />
                     })
                     }
                 </div>
                 {
-                    games.map((game, index) => {
+                    moreGames.map((game, index) => {
                         return <GameCard key={index} game={game} topGame={false} />
                     })
                 }
