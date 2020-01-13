@@ -1,7 +1,7 @@
 .game-container {
     display: inline-flex;
     flex-direction: column;
-    margin: 0px 30px;
+    margin: 0px 10px;
 }
 
 .top-games {
