@@ -4,6 +4,7 @@ import { ConsolidateGameListsV2 } from '../../util/ArrayHelpers';
 import { StringStripper } from '../../util/StringHelpers';
 import GameContainer from '../gameContainer/GameContainer';
 import LoadingIndicator from '../loadingIndicator/LoadingIndicator';
+import SideBar from '../sideBar/SideBar';
 
 class Home extends Component {
     constructor(props) {
@@ -81,9 +82,12 @@ class Home extends Component {
     render() {
         if (this.state.consolidatedGamesList.length > 0) {
             return (
-                <span>
-                    <GameContainer games={this.state.consolidatedGamesList} history={this.props.history} />
-                    {this.state.loadingGames && <LoadingIndicator loadingBatch={true} />}
+                <span style={{ display: 'flex' }}>
+                    <SideBar />
+                    <span>
+                        <GameContainer games={this.state.consolidatedGamesList} history={this.props.history} />
+                        {this.state.loadingGames && <LoadingIndicator loadingBatch={true} />}
+                    </span>
                 </span>
             );
         }
