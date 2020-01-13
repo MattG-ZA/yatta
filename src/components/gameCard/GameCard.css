@@ -1,5 +1,4 @@
 .card {
-    margin: auto;
     padding: 10px 5px;
 }
 
@@ -21,14 +20,24 @@
 
 .card-image-container {
     display: flex;
+    flex-direction: column-reverse;
 }
 
 .card-title {
-    width: 272px;
+    width: auto;
     color: #ccc; 
     margin-top: 5px; 
     margin-bottom: 5px; 
     font-family: Verdana; 
+}
+
+.card-overlay {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 1px 5px 10px 10px black;
+    width: 179px;
+    z-index: 100;
+    padding: 0px 5px 40px;
 }
 
 .icon {
@@ -38,7 +47,7 @@
 }
 
 .viewers {
-    width: 272px;
+    width: auto;
     color: #868686; 
     font-family: Verdana; 
     font-size: smaller; 

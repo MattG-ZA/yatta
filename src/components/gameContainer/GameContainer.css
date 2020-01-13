@@ -1,14 +1,24 @@
 .game-container {
     display: inline-flex;
     flex-direction: column;
+    margin: 0px 30px;
 }
 
 .top-games {
     display: flex; 
     width: 100%;
+    justify-content: space-between;
+}
+
+.top-games-header {
+    color: #ccc;
+    font-family: Verdana;
+    font-size: 18px;
 }
 
 .more-games {
     display: flex; 
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 30px;
 }
