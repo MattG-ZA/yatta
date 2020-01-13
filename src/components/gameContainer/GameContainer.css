@@ -1,10 +1,14 @@
-.container {
-    display: flex; 
-    flex-wrap: wrap; 
+.game-container {
+    display: inline-flex;
+    flex-direction: column;
 }
 
 .top-games {
     display: flex; 
     width: 100%;
-    overflow-x: scroll;
+}
+
+.more-games {
+    display: flex; 
+    flex-wrap: wrap; 
 }
