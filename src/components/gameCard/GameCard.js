@@ -1,8 +1,6 @@
 import React from 'react';
 import './GameCard.css';
-import TwitchIcon from '../../resources/Twitch.png';
-import MixerIcon from '../../resources/Mixer.png';
-import { NumberWithCommas } from '../../util/StringHelpers';
+import GameCardDetails from './ui/GameCardDetails';
 import { NavLink } from 'react-router-dom';
 
 class GameCard extends React.Component {
@@ -12,12 +10,8 @@ class GameCard extends React.Component {
         this.state = { isMouseInside: false };
     }
 
-    mouseEnter = () => {
-        this.setState({ isMouseInside: true });
-    }
-
-    mouseLeave = () => {
-        this.setState({ isMouseInside: false });
+    flipMouseState = () => {
+        this.setState({ isMouseInside: !this.state.isMouseInside });
     }
 
     render() {
@@ -25,44 +19,26 @@ class GameCard extends React.Component {
 
         if (game) {
             const gameCardImageClass = game.usingTwitchImage ? 'card-image' : 'card-mixer-image';
-            const cardHeight = topGame ? '380px' : '250px';
-            const cardWidth = topGame ? '272px' : '179px';
+            // The Top Games cards will resize dynamically with the screen, other cards will maintain their sizes
+            const cardStyleOverride = topGame ? { maxWidth: '100%', maxHeight: '100%' } : { height: '250px', width: '179px' };
 
             return (
                 <div className='card'>
                     <NavLink to={{ pathname: '/streams', state: { gameprops: game } }}>
-                        <span className='card-image-container' onMouseEnter={this.mouseEnter} onMouseLeave={this.mouseLeave}>
-                            <img className={gameCardImageClass} src={game.image} style={{ height: cardHeight, width: cardWidth }} alt='GameImage' />
+                        <span className='card-image-container' onMouseEnter={this.flipMouseState} onMouseLeave={this.flipMouseState}>
+                            <img className={gameCardImageClass} src={game.image} style={cardStyleOverride} alt='GameImage' />
                             {!game.usingTwitchImage &&
-                                <img className='card-background' src={game.image} style={{ height: cardHeight, width: cardWidth }} alt='ImageBackground' />
+                                <img className='card-background' src={game.image} style={cardStyleOverride} alt='ImageBackground' />
                             }
                             {!topGame && this.state.isMouseInside &&
                                 <span className='card-overlay'>
-                                    <div className='card-title'>{game.name}</div>
-                                    <div>
-                                        <img className='icon' src={TwitchIcon} alt='TwitchIcon' />
-                                        <span className='viewers'>{NumberWithCommas(game.twitchViewers)} viewers</span>
-                                    </div>
-                                    <div>
-                                        <img className='icon' src={MixerIcon} alt='MixerIcon' />
-                                        <span className='viewers'>{NumberWithCommas(game.mixerViewers)} viewers</span>
-                                    </div>
+                                    <GameCardDetails game={game} />
                                 </span>
                             }
                         </span>
                     </NavLink>
                     {
-                        topGame && <span>
-                            <div className='card-title'>{game.name}</div>
-                            <div>
-                                <img className='icon' src={TwitchIcon} alt='TwitchIcon' />
-                                <span className='viewers'>{NumberWithCommas(game.twitchViewers)} viewers</span>
-                            </div>
-                            <div>
-                                <img className='icon' src={MixerIcon} alt='MixerIcon' />
-                                <span className='viewers'>{NumberWithCommas(game.mixerViewers)} viewers</span>
-                            </div>
-                        </span>
+                        topGame && <GameCardDetails game={game} />
                     }
                 </div>
             );
