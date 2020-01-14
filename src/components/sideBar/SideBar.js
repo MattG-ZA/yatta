@@ -5,7 +5,7 @@ class SideBar extends React.Component {
     render() {
         return (
             <span className='side-bar'>
-                SIDEBAR
+                <span className='side-bar-header'>y a t t a</span>
             </span>
         );
     }

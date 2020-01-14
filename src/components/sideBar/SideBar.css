@@ -1,6 +1,14 @@
 .side-bar {
     min-width: 200px;
     height: auto;
-    background-color: darkmagenta;
+    background-color: #dd0066;
     margin: -8px 0px -8px -8px;
+    text-align: center;
+    padding-top: 6px;
+}
+
+.side-bar-header {
+    color: #ccc;
+    font-family: Verdana;
+    font-size: 20px;
 }
