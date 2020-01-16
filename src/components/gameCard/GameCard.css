@@ -1,5 +1,12 @@
 .card {
     padding: 10px 5px;
+    transform: scale(1);
+    transition: transform 0.3s;
+}
+
+.more-games .card:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s;
 }
 
 .card-image {
@@ -40,11 +47,12 @@
     padding: 0px 5px 40px;
     height: 80px;
     opacity: 0;
+    transition: opacity ease-out 0.3s;
 }
 
 .card:hover .card-overlay {
-    transition: opacity ease-out 0.3s;
     opacity: 1;
+    transition: opacity ease-out 0.3s;
 }
 
 .icon {
