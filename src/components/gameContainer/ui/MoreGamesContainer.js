@@ -12,15 +12,18 @@ const MoreGamesContainer = (props) => {
     }
 
     return (
-        <span className='more-games'>
-            {
-                moreGames.map((game, index) => {
-                    return <GameCard key={index} game={game} topGame={false} />
-                })
-            }
-            {
-                dummyCards
-            }
+        <span className='more-games-container'>
+            <span className='more-games-header'>Explore</span>
+            <span className='more-games'>
+                {
+                    moreGames.map((game, index) => {
+                        return <GameCard key={index} game={game} topGame={false} />
+                    })
+                }
+                {
+                    dummyCards
+                }
+            </span>
         </span>
     );
 }

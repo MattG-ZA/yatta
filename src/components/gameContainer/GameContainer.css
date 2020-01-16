@@ -14,13 +14,24 @@
     color: #ccc;
     font-family: Verdana;
     font-size: 18px;
+    margin-left: 5px;
+}
+
+.more-games-container {
+    margin-top: 30px;
 }
 
 .more-games {
     display: flex; 
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 30px;
+}
+
+.more-games-header {
+    color: #ccc;
+    font-family: Verdana;
+    font-size: 18px;
+    margin-left: 5px;
 }
 
 .dummy-card {
