@@ -33,11 +33,18 @@
 
 .card-overlay {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
-    box-shadow: 1px 5px 10px 10px black;
-    width: 179px;
+    background-color: rgba(0, 0, 0, 0.85);
+    box-shadow: 0 -2px 4px 0px black;
+    width: 169px;
     z-index: 100;
     padding: 0px 5px 40px;
+    height: 80px;
+    opacity: 0;
+}
+
+.card:hover .card-overlay {
+    transition: opacity ease-out 0.3s;
+    opacity: 1;
 }
 
 .icon {

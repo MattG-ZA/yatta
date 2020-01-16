@@ -4,16 +4,6 @@ import GameCardDetails from './ui/GameCardDetails';
 import { NavLink } from 'react-router-dom';
 
 class GameCard extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = { isMouseInside: false };
-    }
-
-    flipMouseState = () => {
-        this.setState({ isMouseInside: !this.state.isMouseInside });
-    }
-
     render() {
         const { game, topGame } = this.props;
 
@@ -25,12 +15,12 @@ class GameCard extends React.Component {
             return (
                 <div className='card'>
                     <NavLink to={{ pathname: '/streams', state: { gameprops: game } }}>
-                        <span className='card-image-container' onMouseEnter={this.flipMouseState} onMouseLeave={this.flipMouseState}>
+                        <span className='card-image-container'>
                             <img className={gameCardImageClass} src={game.image} style={cardStyleOverride} alt='GameImage' />
                             {!game.usingTwitchImage &&
                                 <img className='card-background' src={game.image} style={cardStyleOverride} alt='ImageBackground' />
                             }
-                            {!topGame && this.state.isMouseInside &&
+                            {!topGame &&
                                 <span className='card-overlay'>
                                     <GameCardDetails game={game} />
                                 </span>
