@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/yatta/precache-manifest.3822d1b7e7f0ad8d174b101c57a13299.js"
+  "/yatta/precache-manifest.0f15e522c0b677990211c4262dc764e7.js"
 );
 
 self.addEventListener('message', (event) => {
