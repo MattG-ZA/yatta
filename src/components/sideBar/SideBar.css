@@ -6,6 +6,18 @@
     background-color: #dd0066;
     margin: -8px 0px -8px -8px;
     padding-top: 6px;
+    transition: min-width 1s;
+}
+
+.side-bar-collapsed {
+    display: flex;
+    justify-content: center;
+    min-width: 50px;
+    height: auto;
+    background-color: #dd0066;
+    margin: -8px 0px -8px -8px;
+    padding-top: 6px;
+    transition: min-width 1s;
 }
 
 .side-bar-header {
@@ -13,4 +25,32 @@
     font-family: Verdana;
     font-size: 20px;
     position: fixed;
+    opacity: 1;
+    transition: opacity 0.6s;
+}
+
+.side-bar-header-hidden {
+    opacity: 0;
+}
+
+.side-bar-collapse {
+    margin-left: 80px;
+    margin-top: 4px;
+    position: fixed;
+    height: 18px;
+    filter: invert(1);
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity ease-in 1.3s;
+}
+
+.side-bar-collapse-hidden {
+    width: 0px;
+    opacity: 0;
+}
+
+.side-bar-expand {
+    position: fixed;
+    height: 24px;
+    cursor: pointer;
 }
