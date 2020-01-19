@@ -6,7 +6,7 @@
     background-color: #dd0066;
     margin: -8px 0px -8px -8px;
     padding-top: 6px;
-    transition: min-width 1s;
+    transition: min-width 0.7s;
 }
 
 .side-bar-collapsed {
@@ -17,7 +17,7 @@
     background-color: #dd0066;
     margin: -8px 0px -8px -8px;
     padding-top: 6px;
-    transition: min-width 1s;
+    transition: min-width 0.7s;
 }
 
 .side-bar-header {
@@ -26,7 +26,8 @@
     font-size: 20px;
     position: fixed;
     opacity: 1;
-    transition: opacity 0.7s;
+    transition: opacity ease-in 0.7s;
+    transition-delay: 0.2s;
 }
 
 .side-bar-header-hidden {
@@ -40,8 +41,10 @@
     height: 18px;
     filter: invert(1);
     cursor: pointer;
+    z-index: 10;
     opacity: 1;
-    transition: opacity ease-in 1.4s;
+    transition: opacity ease-in 0.7s;
+    transition-delay: 0.2s;
 }
 
 .side-bar-collapse-hidden {
@@ -53,4 +56,39 @@
     position: fixed;
     height: 24px;
     cursor: pointer;
+    z-index: 10;
+    opacity: 1;
+    transition: opacity ease-in 0.7s;
+    transition-delay: 0.2s;
+}
+
+.side-bar-expand-hidden {
+    width: 0px;
+    opacity: 0;
+}
+
+.search-container {
+    position: fixed;
+    opacity: 1;
+    transition: opacity ease-in 1s;
+    transition-delay: 0.2s;
+}
+
+.search-container-hidden {
+    opacity: 0;
+}
+
+.search {
+    height: 25px;
+    width: 180px;
+    margin-top: 50px;
+    border-radius: 5px;
+    border: 0px;
+    text-align: center;
+    font-family: Verdana;
+}
+
+.search:focus {
+    box-shadow: 3px 3px 30px #5d5a5a;
+    outline: none;
 }
