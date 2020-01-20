@@ -14,14 +14,15 @@
     justify-content: center;
     min-width: 50px;
     height: auto;
-    background-color: #dd0066;
+    /* background-color: #dd0066;  */
+    background-color: #d80c6a;
     margin: -8px 0px -8px -8px;
     padding-top: 6px;
     transition: min-width 0.7s;
 }
 
 .side-bar-header {
-    color: #ccc;
+    color: white;
     font-family: Verdana;
     font-size: 20px;
     position: fixed;
