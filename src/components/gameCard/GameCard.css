@@ -41,7 +41,7 @@
 .card-overlay {
     position: absolute;
     background-color: rgba(22,24,27, 0.85);
-    box-shadow: 0 -2px 4px 0px #16181B;
+    box-shadow: 0 -2px 4px 0px #16181bd9;
     width: 169px;
     z-index: 100;
     padding: 0px 5px 40px;
