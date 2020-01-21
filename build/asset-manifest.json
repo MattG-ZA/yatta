@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/yatta/static/css/main.b70d79dc.chunk.css",
-    "main.js": "/yatta/static/js/main.ad70f12f.chunk.js",
-    "main.js.map": "/yatta/static/js/main.ad70f12f.chunk.js.map",
+    "main.css": "/yatta/static/css/main.f7f0e46f.chunk.css",
+    "main.js": "/yatta/static/js/main.7b915b60.chunk.js",
+    "main.js.map": "/yatta/static/js/main.7b915b60.chunk.js.map",
     "runtime~main.js": "/yatta/static/js/runtime~main.261765fb.js",
     "runtime~main.js.map": "/yatta/static/js/runtime~main.261765fb.js.map",
-    "static/js/2.4964ee00.chunk.js": "/yatta/static/js/2.4964ee00.chunk.js",
-    "static/js/2.4964ee00.chunk.js.map": "/yatta/static/js/2.4964ee00.chunk.js.map",
+    "static/js/2.0a7b0cc4.chunk.js": "/yatta/static/js/2.0a7b0cc4.chunk.js",
+    "static/js/2.0a7b0cc4.chunk.js.map": "/yatta/static/js/2.0a7b0cc4.chunk.js.map",
     "index.html": "/yatta/index.html",
-    "precache-manifest.339c9b4c06bee77800a18a4dc7b9a419.js": "/yatta/precache-manifest.339c9b4c06bee77800a18a4dc7b9a419.js",
+    "precache-manifest.3a0bec271bade5d1d775c7ec102b8e2a.js": "/yatta/precache-manifest.3a0bec271bade5d1d775c7ec102b8e2a.js",
     "service-worker.js": "/yatta/service-worker.js",
-    "static/css/main.b70d79dc.chunk.css.map": "/yatta/static/css/main.b70d79dc.chunk.css.map",
+    "static/css/main.f7f0e46f.chunk.css.map": "/yatta/static/css/main.f7f0e46f.chunk.css.map",
     "static/media/Mixer.png": "/yatta/static/media/Mixer.db521ad7.png"
   }
 }
