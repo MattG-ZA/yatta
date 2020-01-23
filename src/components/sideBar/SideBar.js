@@ -16,6 +16,8 @@ class SideBar extends React.Component {
     }
 
     render() {
+        const { searchGameFunction } = this.props;
+
         // Swapping classes for animation purposes
         const sideBarClass = this.state.expanded ? 'side-bar' : 'side-bar-collapsed',
             headerClass = this.state.expanded ? 'side-bar-header' : 'side-bar-header-hidden',
@@ -27,7 +29,7 @@ class SideBar extends React.Component {
                 <span className={headerClass}>y a t t a</span>
                 <img className={collapseClass} src={LeftChevron} alt='LeftChevron' onClick={this.ToggleSideBar} />
                 <img className={expandClass} src={YattaLogo} alt='YattaLogo' onClick={this.ToggleSideBar} />
-                <Search expanded={this.state.expanded} />
+                <Search expanded={this.state.expanded} searchGameFunction={searchGameFunction} />
             </span>
         );
     }

@@ -1,11 +1,10 @@
 import { GetSingleMixerGame, GetSingleTwitchGame } from './Api';
 import { StringStripper } from './StringHelpers';
+
 export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
     let consolidatedGameList = [];
-
     // Take the top 24 games from Twitch and Mixer, and convert them into our object formats
     let customTwitchGames = CustomGameInfoBuilder(twitchGames, 'twitch');
-    
     let customMixerGames = CustomGameInfoBuilder(mixerGames, 'mixer');
 
     // Concat them into 1 new array
@@ -27,7 +26,7 @@ export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
             if (matches.length > 0) {
                 game.mixerGameId = matches[0].mixerGameId;
                 matches.forEach(match => {
-                    
+
                     game.mixerViewers += match.mixerViewers;
                     game.totalViewers += match.mixerViewers;
 
@@ -111,10 +110,13 @@ const CustomGameInfoBuilder = (gameList, type) => {
         };
 
         if (type === 'twitch') {
-            customGameInfo.name = game.game.name;
-            customGameInfo.image = game.game.box.large;
-            customGameInfo.twitchViewers = game.game.popularity;
-            customGameInfo.totalViewers = game.game.popularity;
+            // This is to deal with the different format of games from search
+            const gameOrigin = game.game ? game.game : game;
+
+            customGameInfo.name = gameOrigin.name;
+            customGameInfo.image = gameOrigin.box.large;
+            customGameInfo.twitchViewers = gameOrigin.popularity;
+            customGameInfo.totalViewers = gameOrigin.popularity;
             customGameInfo.usingTwitchImage = true;
         }
 
@@ -125,7 +127,11 @@ const CustomGameInfoBuilder = (gameList, type) => {
             customGameInfo.totalViewers = game.viewersCurrent;
             customGameInfo.mixerGameId = game.id;
         }
-        customGameInfoList.push(customGameInfo);
+
+        // Only add games with viewers
+        if (customGameInfo.totalViewers > 0) {
+            customGameInfoList.push(customGameInfo);
+        }
     });
 
     return customGameInfoList;
@@ -193,7 +199,7 @@ export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
         streamObj = {};
         streamObj = {
             name: twitchStreams[i].channel.name,
-            image: twitchStreams[i].preview.template.replace('{width}','380').replace('{height}','200'),
+            image: twitchStreams[i].preview.template.replace('{width}', '380').replace('{height}', '200'),
             url: twitchStreams[i].channel.url,
             viewers: twitchStreams[i].viewers,
             type: 'twitch',
@@ -206,7 +212,7 @@ export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
         streamObj = {};
         streamObj = {
             name: mixerStreams[i].name,
-            image: 'https://thumbs.mixer.com/channel/'+ mixerStreams[i].id+'.small.jpg',
+            image: 'https://thumbs.mixer.com/channel/' + mixerStreams[i].id + '.small.jpg',
             url: 'https://mixer.com/' + mixerStreams[i].id,
             viewers: mixerStreams[i].viewersCurrent,
             type: 'mixer',
@@ -215,7 +221,7 @@ export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
         mixerStreams[i].viewers = mixerStreams[i].viewersCurrent;
         consolidatedStreamList.push(streamObj);
     }
-    
+
 
     // Sort the array by total viewers, then get the top 24 games from the consolidated list
     consolidatedStreamList.sort((a, b) => (a.viewers < b.viewers) ? 1 : -1);

@@ -40,12 +40,12 @@
 
 .card-overlay {
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.85);
-    box-shadow: 0 -2px 4px 0px black;
+    background-color: rgba(22,24,27, 0.85);
+    box-shadow: 0 -2px 4px 0px #16181bd9;
     width: 169px;
     z-index: 100;
     padding: 0px 5px 40px;
-    height: 80px;
+    height: 90px;
     opacity: 0;
     transition: opacity ease-out 0.3s;
 }
@@ -65,5 +65,6 @@
     width: auto;
     color: #868686; 
     font-family: Verdana; 
-    font-size: smaller; 
+    font-size: smaller;
+    filter: brightness(1.3);
 }
