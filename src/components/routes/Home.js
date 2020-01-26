@@ -108,12 +108,12 @@ class Home extends Component {
     }
 
     render() {
-        if (this.state.consolidatedGamesList.length > 0) {
+        if (this.state.consolidatedGamesList.length > 0 || this.state.searchParams.searched) {
             return (
                 <span style={{ display: 'flex' }}>
                     <SideBar searchGameFunction={this.SearchGame} />
                     <span>
-                        {/* history={this.props.history look into this */}
+                        {/* history={this.props.history} - look into this */}
                         <GameContainer
                             games={this.state.consolidatedGamesList}
                             searchParams={this.state.searchParams}
