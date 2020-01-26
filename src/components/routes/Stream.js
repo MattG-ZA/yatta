@@ -13,33 +13,38 @@ class Stream extends Component {
     }
 
     async componentDidMount() {
-        let selectedGameStream = this.props.location.state.streamProps;
+        console.log('this.props.location.state.streamProps',this.props.location.state);
+        const height = window.innerHeight;
+        new window.Twitch.Embed("twitch-embed", {
+            width: "100%",
+            height: height,
+            channel: this.props.location.state.game.name
+            });
     }
 
     render() {
         const { game, url} = this.props.location.state;
-        return (<div>
+        const height = window.innerHeight;
+       
+        return (
+        <div>
             {game.type === 'twitch' && <div className="stream-iframe-view">
-                <iframe
-                    src={"https://player.twitch.tv/?channel=" + url + "&autoplay=true"}
-                    height="720"
-                    width="1280"
-                    frameborder="0"
-                    scrolling="no"
-                    allowfullscreen="true">
-                </iframe></div>
-                
+                <div id="twitch-embed"></div>
+                </div>
             }
 
             {game.type === 'mixer'  && <div className="stream-iframe-view">
                 <iframe src={"https://mixer.com/embed/player/" + game.streamerName}
-                    height="720"
-                    width="1280"
+                    height={height}
+                    width="80%"
                     frameborder="0"
                     scrolling="no"
                 ></iframe>
-                <iframe src={"https://mixer.com/embed/chat/" + game.streamerName}>
-
+                <iframe src={"https://mixer.com/embed/chat/" + game.streamerName}
+                 width="20%"
+                 frameborder="0"
+                 height={height}
+                >
                 </iframe>
             </div>}
             </div>
