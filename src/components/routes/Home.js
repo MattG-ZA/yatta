@@ -16,6 +16,7 @@ class Home extends Component {
             mixerStreams: [],
             consolidatedGamesList: [],
             loadingGames: false,
+            searchingGames: false,
             searchParams: { term: '', searched: false },
         };
 
@@ -78,20 +79,20 @@ class Home extends Component {
     // Function to fetch and consolidate games from search
     async SearchGame(e) {
         if (e.key === 'Enter') {
-            const searchTerm = e.target.value;
+            if (!this.state.searchingGames) {
+                const searchTerm = e.target.value;
+                
+                this.setState({ searchingGames: true });
 
-            const twitchGameData = await GetSingleTwitchGame(searchTerm);
-            const mixerGameData = await GetSingleMixerGame(searchTerm);
-
-            if (!this.state.loadingGames) {
-                this.setState({ loadingGames: true });
+                const twitchGameData = await GetSingleTwitchGame(searchTerm);
+                const mixerGameData = await GetSingleMixerGame(searchTerm);
 
                 // twitchGameData.games is used due to different format returned by GetSingleTwitchGame
                 const consolidatedGamesList = await ConsolidateGameListsV2(twitchGameData.games, mixerGameData);
 
                 this.setState({
                     consolidatedGamesList,
-                    loadingGames: false,
+                    searchingGames: false,
                     page: 0,
                     searchParams: { term: searchTerm, searched: true },
                 });
@@ -108,7 +109,7 @@ class Home extends Component {
     }
 
     render() {
-        const finishedLoad = (this.state.consolidatedGamesList.length > 0 || this.state.searchParams.searched) && !this.state.loadingGames;
+        const finishedLoad = (this.state.consolidatedGamesList.length > 0 || this.state.searchParams.searched) && !this.state.searchingGames;
 
         return (
             <span style={{ display: 'flex' }}>
