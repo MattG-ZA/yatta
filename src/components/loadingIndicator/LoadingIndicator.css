@@ -36,9 +36,8 @@
 }
 
 .indicator-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 45vh;
+    align-self: center;
+    margin-left: 40vw;
 }
 
 .batch-indicator-container {

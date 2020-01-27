@@ -108,11 +108,13 @@ class Home extends Component {
     }
 
     render() {
-        if (this.state.consolidatedGamesList.length > 0 || this.state.searchParams.searched) {
-            return (
-                <span style={{ display: 'flex' }}>
-                    <SideBar searchGameFunction={this.SearchGame} />
-                    <span>
+        const finishedLoad = (this.state.consolidatedGamesList.length > 0 || this.state.searchParams.searched) && !this.state.loadingGames;
+
+        return (
+            <span style={{ display: 'flex' }}>
+                <SideBar searchGameFunction={this.SearchGame} />
+                {
+                    finishedLoad && <span>
                         {/* history={this.props.history} - look into this */}
                         <GameContainer
                             games={this.state.consolidatedGamesList}
@@ -121,12 +123,12 @@ class Home extends Component {
                         />
                         {this.state.loadingGames && <LoadingIndicator loadingBatch={true} />}
                     </span>
-                </span>
-            );
-        }
-        else {
-            return <LoadingIndicator loadingBatch={false} />;
-        }
+                }
+                {
+                    !finishedLoad && <LoadingIndicator loadingBatch={false} />
+                }
+            </span>
+        );
     }
 }
 
