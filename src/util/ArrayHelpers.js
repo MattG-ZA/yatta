@@ -229,5 +229,6 @@ export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
     // Sort the array by total viewers, then get the top 24 games from the consolidated list
     consolidatedStreamList.sort((a, b) => (a.viewers < b.viewers) ? 1 : -1);
     consolidatedStreamList = consolidatedStreamList.slice(0, 24);
+
     return consolidatedStreamList;
 }

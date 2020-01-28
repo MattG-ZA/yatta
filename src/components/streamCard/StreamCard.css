@@ -1,26 +1,15 @@
 .stream-card {
-    margin: 10px;
+
     cursor: pointer;
+}
+
+.stream-card-container {
+    margin: 10px;
 }
 
 .stream-card-image {
     width: 380px;
     height: 200px;
-    border-radius: 10px 0px 10px 0px;
-}
-
-.stream-card-mixer-image {
-    position: absolute;
-    width: 380px;
-    height: 200px;
-    object-fit: contain;
-    z-index: 100;
-}
-
-.stream-card-background {
-    width: 380px;
-    height: 200px;
-    filter: blur(3px) brightness(0.5);
     border-radius: 10px 0px 10px 0px;
 }
 
@@ -39,16 +28,18 @@
 .stream-icon {
     width: 10px; 
     margin-right: 5px; 
-    filter: brightness(150%);
+    filter: grayscale(1) brightness(10);
 }
 
 .stream-viewers {
+    width: auto;
     color: #868686; 
     font-family: Verdana; 
-    font-size: smaller; 
-    width: 380px;
+    font-size: smaller;
+    filter: brightness(1.3);
 }
-.stream-iframe-view{
-    height:auto;
-    width:auto;
+
+.stream-iframe-view {
+    height: auto;
+    width: auto;
 }

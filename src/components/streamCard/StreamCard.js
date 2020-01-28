@@ -15,48 +15,47 @@ class StreamCard extends React.Component {
             streamType: '',
         };
     }
-    handleStreamSelection = (game) => {
+
+    HandleStreamSelection = (stream) => {
         this.setState({
             viewingStream: true,
-            selectedStream: game.url,
-            streamType: game.Type,
+            selectedStream: stream.url,
+            streamType: stream.Type,
         });
     }
-    getDetailByType(game){
-        if(game.type === 'mixer'){
-            return (<div>
-                        <img className='stream-icon' src={MixerIcon} alt='MixerIcon' />
-                        <span className='stream-viewers'>{NumberWithCommas(game.viewers)} viewers</span>
-                    </div>)
-        }
-        else{
-            return  (<div>
-                        <img className='stream-icon' src={TwitchIcon} alt='TwitchIcon' />
-                        <span className='stream-viewers'>{NumberWithCommas(game.viewers)} viewers</span>
-                    </div>)
-        }
-	}
+
+    GetDetailByType(stream) {
+        const icon = stream.type === 'twitch' ? TwitchIcon : MixerIcon;
+
+        return (
+            <div>
+                <img className='stream-icon' src={icon} alt={`${stream.type}Icon`} />
+                <span className='stream-viewers'>{NumberWithCommas(stream.viewers)} viewers</span>
+            </div>
+        )
+    }
 
     render() {
-		const { game } = this.props;
-		const gameCardImageClass = game.type === 'twitch' ? 'stream-card-image' : 'stream-card-image';
-        const gameDetail = this.getDetailByType(game);
-		const stringSplit = game.url.split("/");
-		
-		const url = stringSplit[stringSplit.length - 1]; 
+        const { stream } = this.props;
+        
+        const streamDetail = this.GetDetailByType(stream);
+        const stringSplit = stream.url.split("/");
+        const url = stringSplit[stringSplit.length - 1];
+
         return (
-			<NavLink to={{ pathname:'/stream', state: { game: game, url: url} }}>
-			<div className='stream-card' onClick={ () => {this.handleStreamSelection(game)} }>
-			<span className='stream-card-image-container'>
-				<img className={gameCardImageClass} src={game.image} alt='GameImage' />
-				{!game.type === 'twitch' && <img className='stream-card-background' src={game.image} alt='ImageBackground' />}
-			</span>
-			<div className='stream-card-title'>
-			{game.name}
-			</div>
-				{gameDetail}
-		</div>
-		</NavLink>
+            <div className='stream-card-container'>
+                <NavLink to={{ pathname: '/stream', state: { stream: stream, url: url } }}>
+                    <div className='stream-card' onClick={() => { this.HandleStreamSelection(stream) }}>
+                        <span className='stream-card-image-container'>
+                            <img className='stream-card-image' src={stream.image} alt='StreamImage' />
+                        </span>
+                    </div>
+                </NavLink>
+                <div className='stream-card-title'>
+                    {stream.name}
+                </div>
+                {streamDetail}
+            </div>
         );
     }
 }

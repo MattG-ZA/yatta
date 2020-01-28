@@ -4,14 +4,18 @@ import StreamCard from '../streamCard/StreamCard';
 
 class StreamContainer extends React.Component {
     render() {
-        const { games } = this.props;
+        const { streams, gameDetails } = this.props;
+        
         return (
-            <span className='container'>
-                {
-                    games.map((game, index) => {
-                        return <StreamCard key={index} game={game} />
-                    })
-                }
+            <span>
+                <span className='stream-container-header'>{gameDetails.name}</span>
+                <span className='stream-container'>
+                    {
+                        streams.map((stream, index) => {
+                            return <StreamCard key={index} stream={stream} />
+                        })
+                    }
+                </span>
             </span>
         );
     }

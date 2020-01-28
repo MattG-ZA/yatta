@@ -1,5 +1,13 @@
-.container {
+.stream-container {
     display: flex; 
-    flex-wrap: wrap; 
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0px 5px;
+}
+
+.stream-container-header {
+    color: #ccc;
+    font-family: Verdana;
+    font-size: 18px;
+    margin-left: 15px;
 }
