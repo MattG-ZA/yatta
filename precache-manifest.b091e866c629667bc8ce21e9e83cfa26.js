@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f8f6342a35ca162123ca12b57766e5d4",
+    "revision": "51741c57092f42650bcde4eabdaf77f3",
     "url": "/yatta/index.html"
   },
   {
-    "revision": "cd70a07347d68c189d90",
+    "revision": "9644271860802b9ea34a",
     "url": "/yatta/static/css/main.1e3b1ddb.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/yatta/static/js/2.b436f77f.chunk.js"
   },
   {
-    "revision": "cd70a07347d68c189d90",
-    "url": "/yatta/static/js/main.c52625a5.chunk.js"
+    "revision": "9644271860802b9ea34a",
+    "url": "/yatta/static/js/main.928ee959.chunk.js"
   },
   {
     "revision": "3f9bd621c3c73061916f",
