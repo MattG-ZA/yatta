@@ -1,21 +1,19 @@
 import React from 'react';
 import './StreamContainer.css';
-import StreamCard from '../streamCard/StreamCard';
+import TopStreamsContainer from './ui/TopStreamsContainer';
+import MoreStreamsContainer from './ui/MoreStreamsContainer';
 
 class StreamContainer extends React.Component {
     render() {
-        const { streams, gameDetails } = this.props;
+        const { streams } = this.props;
+
+        const topStreams = streams.slice(0, 3);
+        const moreStreams = streams.slice(3, streams.length);
         
         return (
-            <span>
-                <span className='stream-container-header'>{gameDetails.name}</span>
-                <span className='stream-container'>
-                    {
-                        streams.map((stream, index) => {
-                            return <StreamCard key={index} stream={stream} />
-                        })
-                    }
-                </span>
+            <span className='stream-container'>
+                <TopStreamsContainer topStreams={topStreams} />
+                <MoreStreamsContainer moreStreams={moreStreams} />
             </span>
         );
     }

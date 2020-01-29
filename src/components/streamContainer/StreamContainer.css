@@ -1,13 +1,40 @@
 .stream-container {
-    display: flex; 
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin: 0px 5px;
+    display: inline-flex;
+    flex-direction: column;
+    margin: 0px 15px;
+    width: 100%;
 }
 
-.stream-container-header {
+.top-streams {
+    display: flex; 
+    width: 100%;
+    justify-content: space-between;
+}
+
+.top-streams-header {
     color: #ccc;
     font-family: Verdana;
     font-size: 18px;
-    margin-left: 15px;
+}
+
+.more-streams-container {
+    margin-top: 30px;
+}
+
+.more-streams {
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 6px;
+}
+
+.more-streams-header {
+    color: #ccc;
+    font-family: Verdana;
+    font-size: 18px;
+}
+
+.stream-dummy-card {
+    width: 320px;
+    padding: 10px 5px;
 }

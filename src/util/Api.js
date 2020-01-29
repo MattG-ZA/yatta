@@ -2,7 +2,6 @@
 
 // Get top 20 Twitch streams
 export const GetTwitchStreams = (gameName) => {
-    console.log('game Name:>', gameName);
     return fetch(`https://api.twitch.tv/kraken/streams?game=${gameName}&limit=25`, {
         headers: {
             'Accept': 'application/vnd.twitchtv.v5+json',
@@ -12,7 +11,7 @@ export const GetTwitchStreams = (gameName) => {
     })
         .then(response => response.json())
         .then((json) => {
-            // console.log('API - Twitch Streams: ', json);
+            console.log('API - Twitch Streams: ', json);
             return json.streams;
         });
 }

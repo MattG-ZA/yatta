@@ -36,25 +36,30 @@ class StreamCard extends React.Component {
     }
 
     render() {
-        const { stream } = this.props;
-        
+        const { stream, topStream } = this.props;
+
+        const streamCardImageStyle = topStream ? 'stream-card-image-top' : 'stream-card-image';
+        const streamCardContainerStyle = topStream ? 'stream-card-container-top' : 'stream-card-container';
+        const streamCardTitleContainerStyle = topStream ? 'stream-card-title-container-top' : 'stream-card-title-container';
+
         const streamDetail = this.GetDetailByType(stream);
         const stringSplit = stream.url.split("/");
         const url = stringSplit[stringSplit.length - 1];
 
         return (
-            <div className='stream-card-container'>
+            <div className={streamCardContainerStyle}>
                 <NavLink to={{ pathname: '/stream', state: { stream: stream, url: url } }}>
                     <div className='stream-card' onClick={() => { this.HandleStreamSelection(stream) }}>
                         <span className='stream-card-image-container'>
-                            <img className='stream-card-image' src={stream.image} alt='StreamImage' />
+                            <img className={streamCardImageStyle} src={stream.image} alt='StreamImage' />
                         </span>
                     </div>
                 </NavLink>
-                <div className='stream-card-title'>
-                    {stream.name}
+                <div className={streamCardTitleContainerStyle}>
+                    <img className='stream-card-logo' src={stream.logo} alt='StreamLogo' />
+                    <span className='stream-card-title'>{stream.name}</span>
                 </div>
-                {streamDetail}
+                {topStream && streamDetail}
             </div>
         );
     }

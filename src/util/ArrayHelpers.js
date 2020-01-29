@@ -192,7 +192,8 @@ const GetMixerGamePromises = async (mixerMatchPromises, unmatchedGames) => {
 export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
     let consolidatedStreamList = [];
     let streamObj = {
-        name: 'N/A',
+        name: '',
+        logo: '',
         image: '',
         viewers: 0,
         type: '',
@@ -201,16 +202,17 @@ export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
     for (let i = 0; i < twitchStreams.length; i++) {
         streamObj = {};
         streamObj = {
-            name: twitchStreams[i].channel.name,
-            image: twitchStreams[i].preview.template.replace('{width}', '380').replace('{height}', '200'),
+            name: twitchStreams[i].channel.display_name,
+            logo: twitchStreams[i].channel.logo,
+            image: twitchStreams[i].preview.template.replace('{width}', '640').replace('{height}', '360'),
             url: twitchStreams[i].channel.url,
             viewers: twitchStreams[i].viewers,
             type: 'twitch',
         }
+
         consolidatedStreamList.push(streamObj);
     };
 
-    // Loop through Mixer games to look for any games not included in top Twitch games
     for (let i = 0; i < mixerStreams.length; i++) {
         streamObj = {};
         streamObj = {
@@ -222,6 +224,7 @@ export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
             streamerName: mixerStreams[i].token
         }
         mixerStreams[i].viewers = mixerStreams[i].viewersCurrent;
+
         consolidatedStreamList.push(streamObj);
     }
 

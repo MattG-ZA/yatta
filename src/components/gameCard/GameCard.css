@@ -12,6 +12,7 @@
 .card-image {
     border-radius: 10px 0px 10px 0px;
     cursor: pointer;
+    box-shadow: 1px 1px 5px 3px #0c0c0c;
 }
 
 .card-mixer-image {

@@ -1,28 +1,52 @@
 .stream-card {
-
     cursor: pointer;
 }
 
 .stream-card-container {
-    margin: 10px;
+    margin: 10px 0px;
+}
+
+.stream-card-container-top {
+    margin-top: 10px;
+}
+
+.stream-card-container-top:nth-child(2) {
+    margin-right: 15px;
+    margin-left: 15px;
 }
 
 .stream-card-image {
-    width: 380px;
-    height: 200px;
     border-radius: 10px 0px 10px 0px;
+    max-height: 180px;
+    max-width: 320px;
+    box-shadow: 1px 1px 5px 3px #0c0c0c;
+}
+
+.stream-card-image-top {
+    border-radius: 10px 0px 10px 0px;
+    max-height: 100%;
+    max-width: 100%;
+    box-shadow: 1px 1px 5px 3px #0c0c0c;
 }
 
 .stream-card-image-container {
     display: flex;
 }
 
+.stream-card-title-container {
+    margin-top: 10px;
+}
+
+.stream-card-title-container-top {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
 .stream-card-title {
     color: #ccc; 
-    margin-top: 5px; 
-    margin-bottom: 5px; 
     font-family: Verdana; 
-    width: 380px;
+    width: auto;
+    vertical-align: super;
 }
 
 .stream-icon {
@@ -42,4 +66,11 @@
 .stream-iframe-view {
     height: auto;
     width: auto;
+}
+
+.stream-card-logo {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    border-radius: 20px;
 }
