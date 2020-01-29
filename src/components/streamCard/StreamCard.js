@@ -41,6 +41,7 @@ class StreamCard extends React.Component {
         const streamCardImageStyle = topStream ? 'stream-card-image-top' : 'stream-card-image';
         const streamCardContainerStyle = topStream ? 'stream-card-container-top' : 'stream-card-container';
         const streamCardTitleContainerStyle = topStream ? 'stream-card-title-container-top' : 'stream-card-title-container';
+        const imageZoom = stream.type === 'twitch' ? 1 : 1.42;
 
         const streamDetail = this.GetDetailByType(stream);
         const stringSplit = stream.url.split("/");
@@ -51,7 +52,7 @@ class StreamCard extends React.Component {
                 <NavLink to={{ pathname: '/stream', state: { stream: stream, url: url } }}>
                     <div className='stream-card' onClick={() => { this.HandleStreamSelection(stream) }}>
                         <span className='stream-card-image-container'>
-                            <img className={streamCardImageStyle} src={stream.image} alt='StreamImage' />
+                            <img className={streamCardImageStyle} src={stream.image} style={{zoom: imageZoom}} alt='StreamImage' />
                         </span>
                     </div>
                 </NavLink>

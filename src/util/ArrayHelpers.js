@@ -216,7 +216,8 @@ export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
     for (let i = 0; i < mixerStreams.length; i++) {
         streamObj = {};
         streamObj = {
-            name: mixerStreams[i].name,
+            name: mixerStreams[i].user.username,
+            logo: mixerStreams[i].user.avatarUrl,
             image: 'https://thumbs.mixer.com/channel/' + mixerStreams[i].id + '.small.jpg',
             url: 'https://mixer.com/' + mixerStreams[i].id,
             viewers: mixerStreams[i].viewersCurrent,

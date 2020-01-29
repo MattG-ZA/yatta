@@ -52,13 +52,10 @@ export const GetSingleTwitchGame = (gameName) => {
 
 // Get top Mixer streams
 export const GetMixerStreams = (gameId) => {
-    console.log('gameName',gameId);
-    const url = `https://mixer.com/api/v1/channels?where=typeId:eq:${gameId}&order=viewersCurrent:DESC&limit=24`;
-    console.log('call made => ', url);
-    return fetch(url)
+    return fetch(`https://mixer.com/api/v1/channels?where=typeId:eq:${gameId}&order=viewersCurrent:DESC&limit=24`)
         .then(response => response.json())
         .then((json) => {
-            // console.log('API - Mixer Streams: ', json);
+            console.log('API - Mixer Streams: ', json);
             return json;
         });
 }
