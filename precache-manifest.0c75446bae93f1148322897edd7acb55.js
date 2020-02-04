@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d14014984fa1c7c7bab54a48fdcd3a2d",
+    "revision": "59a175b04b097118a667221458a8e4bf",
     "url": "/yatta/index.html"
   },
   {
