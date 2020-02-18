@@ -11,8 +11,24 @@ export const GetTwitchStreams = (gameName) => {
     })
         .then(response => response.json())
         .then((json) => {
-            console.log('API - Twitch Streams: ', json);
+            // console.log('API - Twitch Streams: ', json);
             return json.streams;
+        });
+}
+
+// Get top 100 Twitch streams, V2
+export const GetTwitchStreamsV2 = (gameId) => {
+    return fetch(`https://api.twitch.tv/helix/streams?first=100&game_id=${gameId}`, {
+        headers: {
+            'Accept': 'application/vnd.twitchtv.v5+json',
+            'Client-ID': 'qxrshse6o00vgsl28hjlkyvlu28r89',
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(response => response.json())
+        .then((json) => {
+            // console.log('API - Twitch Streams V2: ', json);
+            return json.data;
         });
 }
 
@@ -55,7 +71,7 @@ export const GetMixerStreams = (gameId) => {
     return fetch(`https://mixer.com/api/v1/channels?where=typeId:eq:${gameId}&order=viewersCurrent:DESC&limit=24`)
         .then(response => response.json())
         .then((json) => {
-            console.log('API - Mixer Streams: ', json);
+            // console.log('API - Mixer Streams: ', json);
             return json;
         });
 }

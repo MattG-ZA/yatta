@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/yatta/static/css/main.1e3b1ddb.chunk.css",
-    "main.js": "/yatta/static/js/main.c52625a5.chunk.js",
-    "main.js.map": "/yatta/static/js/main.c52625a5.chunk.js.map",
+    "main.js": "/yatta/static/js/main.928ee959.chunk.js",
+    "main.js.map": "/yatta/static/js/main.928ee959.chunk.js.map",
     "runtime~main.js": "/yatta/static/js/runtime~main.261765fb.js",
     "runtime~main.js.map": "/yatta/static/js/runtime~main.261765fb.js.map",
     "static/js/2.b436f77f.chunk.js": "/yatta/static/js/2.b436f77f.chunk.js",
     "static/js/2.b436f77f.chunk.js.map": "/yatta/static/js/2.b436f77f.chunk.js.map",
     "index.html": "/yatta/index.html",
-    "precache-manifest.83111668ef9aac14451085cab6245b63.js": "/yatta/precache-manifest.83111668ef9aac14451085cab6245b63.js",
+    "precache-manifest.b091e866c629667bc8ce21e9e83cfa26.js": "/yatta/precache-manifest.b091e866c629667bc8ce21e9e83cfa26.js",
     "service-worker.js": "/yatta/service-worker.js",
     "static/css/main.1e3b1ddb.chunk.css.map": "/yatta/static/css/main.1e3b1ddb.chunk.css.map",
     "static/media/Mixer.png": "/yatta/static/media/Mixer.db521ad7.png"

@@ -1,4 +1,4 @@
-import { GetSingleMixerGame, GetSingleTwitchGame } from './Api';
+import { GetSingleMixerGame, GetSingleTwitchGame, GetTwitchStreamsV2 } from './Api';
 import { StringStripper } from './StringHelpers';
 
 export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
@@ -78,6 +78,17 @@ export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
 
         await GetTwitchGamePromises(twitchMatchPromises, unmatchedGamesPunctuation, true);
 
+        const gamesWithoutTwitchViewers = consolidatedGameList.filter(game => game.twitchViewers === 0 && game.twitchGameId !== '');
+
+        // Go through each game without Twitch viewers, get its top streams, then total viewers from those streams
+        for (let i = 0; i < gamesWithoutTwitchViewers.length; i++) {
+            const streamsForGame = await GetTwitchStreamsV2(gamesWithoutTwitchViewers[i].twitchGameId);
+            const totalTwitchViewers = GetTotalTwitchViewersFromStreams(streamsForGame);
+
+            gamesWithoutTwitchViewers[i].twitchViewers = totalTwitchViewers;
+            gamesWithoutTwitchViewers[i].totalViewers += totalTwitchViewers;
+        }
+
         // Build up a list of unique games, favouring Twitch versions of duplicates
         consolidatedGameList.forEach(game => {
             if (consolidatedGameList.filter(x => StringStripper(x.name) === StringStripper(game.name)).length === 1) {
@@ -107,6 +118,7 @@ const CustomGameInfoBuilder = (gameList, type) => {
             mixerViewers: 0,
             totalViewers: 0,
             usingTwitchImage: false,
+            twitchGameId: '',
             mixerGameId: '',
             gameOrigin: type,
             matched: false,
@@ -115,12 +127,13 @@ const CustomGameInfoBuilder = (gameList, type) => {
         if (type === 'twitch') {
             // This is to deal with the different format of games from search
             const gameOrigin = game.game ? game.game : game;
-
+            
             customGameInfo.name = gameOrigin.name;
             customGameInfo.image = gameOrigin.box.large;
-            customGameInfo.twitchViewers = gameOrigin.popularity;
-            customGameInfo.totalViewers = gameOrigin.popularity;
+            customGameInfo.twitchViewers = game.viewers ? game.viewers : 0;
+            customGameInfo.totalViewers = game.viewers ? game.viewers : 0;
             customGameInfo.usingTwitchImage = true;
+            customGameInfo.twitchGameId = gameOrigin._id;
         }
 
         if (type === 'mixer') {
@@ -132,11 +145,11 @@ const CustomGameInfoBuilder = (gameList, type) => {
         }
 
         // Only add games with viewers
-        if (customGameInfo.totalViewers > 0) {
+        if (customGameInfo.totalViewers > -1) {
             customGameInfoList.push(customGameInfo);
         }
     });
-
+    
     return customGameInfoList;
 }
 
@@ -158,8 +171,7 @@ const GetTwitchGamePromises = async (twitchMatchPromises, unmatchedGames, colonC
                 // If a match was found, update the values of the unmatched game, which also updates consolidatedGameList
                 if (match) {
                     match.image = responseItem.games[0].box.large;
-                    match.twitchViewers += responseItem.games[0].popularity;
-                    match.totalViewers += responseItem.games[0].popularity;
+                    match.twitchGameId = responseItem.games[0]._id;
                     match.usingTwitchImage = true;
                     match.matched = true;
                 }
@@ -186,7 +198,6 @@ const GetMixerGamePromises = async (mixerMatchPromises, unmatchedGames) => {
         });
     });
 }
-
 
 // Consolidate the game objects returned from different API's
 export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
@@ -229,10 +240,24 @@ export const ConsolidateStreamLists = async (twitchStreams, mixerStreams) => {
         consolidatedStreamList.push(streamObj);
     }
 
-
     // Sort the array by total viewers, then get the top 24 games from the consolidated list
     consolidatedStreamList.sort((a, b) => (a.viewers < b.viewers) ? 1 : -1);
     consolidatedStreamList = consolidatedStreamList.slice(0, 24);
 
     return consolidatedStreamList;
+}
+
+// Use the top 100 Twitch streams for the game to estimate total viewers
+const GetTotalTwitchViewersFromStreams = (streams) => {
+    if (!streams) {
+        return 0;
+    }
+
+    let totalViewers = 0;
+
+    streams.forEach(stream => {
+        totalViewers += stream.viewer_count;
+    });
+    
+    return totalViewers;
 }
