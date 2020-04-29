@@ -2,9 +2,19 @@
 <html>
 <script src="https://embed.twitch.tv/embed/v1.js"></script>
 <script>
-let Twitch;
+    let Twitch;
 </script>
+
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157721304-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-157721304-1');
+    </script>
     <title>yatta</title>
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
@@ -15,4 +25,5 @@ let Twitch;
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
 </body>
+
 </html>

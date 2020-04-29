@@ -41,7 +41,7 @@ class StreamCard extends React.Component {
         const streamCardImageStyle = topStream ? 'stream-card-image-top' : 'stream-card-image';
         const streamCardContainerStyle = topStream ? 'stream-card-container-top' : 'stream-card-container';
         const streamCardTitleContainerStyle = topStream ? 'stream-card-title-container-top' : 'stream-card-title-container';
-        const imageZoom = stream.type === 'twitch' ? 1 : 1.42;
+        const imageZoom = stream.type === 'mixer' && topStream ? 1.42 : 1;
 
         const streamDetail = this.GetDetailByType(stream);
         const stringSplit = stream.url.split("/");
