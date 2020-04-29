@@ -79,15 +79,30 @@ export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
         await GetTwitchGamePromises(twitchMatchPromises, unmatchedGamesPunctuation, true);
 
         const gamesWithoutTwitchViewers = consolidatedGameList.filter(game => game.twitchViewers === 0 && game.twitchGameId !== '');
+        let twitchStreamsForGamePromises = [];
 
-        // Go through each game without Twitch viewers, get its top streams, then total viewers from those streams
-        for (let i = 0; i < gamesWithoutTwitchViewers.length; i++) {
-            const streamsForGame = await GetTwitchStreamsV2(gamesWithoutTwitchViewers[i].twitchGameId);
-            const totalTwitchViewers = GetTotalTwitchViewersFromStreams(streamsForGame);
+        // Build a list of promises to send and get top 100 streams for all the games without Twitch viewer numbers
+        gamesWithoutTwitchViewers.forEach(game => {
+            twitchStreamsForGamePromises.push(GetTwitchStreamsV2(game.twitchGameId));
+        });
 
-            gamesWithoutTwitchViewers[i].twitchViewers = totalTwitchViewers;
-            gamesWithoutTwitchViewers[i].totalViewers += totalTwitchViewers;
-        }
+        const twitchStreamsForGame = await Promise.all(twitchStreamsForGamePromises);
+
+         // Go through each game without Twitch viewers, get its top streams, then total viewers from those streams
+        twitchStreamsForGame.forEach(game => {
+            // If the game has at least 1 Twitch stream, try match a promise result with a game missing Twitch viewers
+            if (game && game[0]) {
+                let matchedGame = gamesWithoutTwitchViewers.find(gameWithoutViewers => gameWithoutViewers.twitchGameId.toString() === game[0].game_id);
+
+                if (matchedGame) {
+                    // Total up the viewers from all the streams returned
+                    const totalTwitchViewers = GetTotalTwitchViewersFromStreams(game);
+
+                    matchedGame.twitchViewers = totalTwitchViewers;
+                    matchedGame.totalViewers += totalTwitchViewers;
+                }
+            }
+        });
 
         // Build up a list of unique games, favouring Twitch versions of duplicates
         consolidatedGameList.forEach(game => {
@@ -102,7 +117,7 @@ export const ConsolidateGameListsV2 = async (twitchGames, mixerGames) => {
         // Sort list by total viewers from high to low
         responseList.sort((a, b) => (a.totalViewers < b.totalViewers) ? 1 : -1);
     }
-    
+
     return responseList;
 }
 
@@ -127,7 +142,7 @@ const CustomGameInfoBuilder = (gameList, type) => {
         if (type === 'twitch') {
             // This is to deal with the different format of games from search
             const gameOrigin = game.game ? game.game : game;
-            
+
             customGameInfo.name = gameOrigin.name;
             customGameInfo.image = gameOrigin.box.large;
             customGameInfo.twitchViewers = game.viewers ? game.viewers : 0;
@@ -149,7 +164,7 @@ const CustomGameInfoBuilder = (gameList, type) => {
             customGameInfoList.push(customGameInfo);
         }
     });
-    
+
     return customGameInfoList;
 }
 
@@ -258,6 +273,6 @@ const GetTotalTwitchViewersFromStreams = (streams) => {
     streams.forEach(stream => {
         totalViewers += stream.viewer_count;
     });
-    
+
     return totalViewers;
 }
